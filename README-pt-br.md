@@ -1,12 +1,12 @@
 #Introdução
 
-O objetivo deste guia é aprensetar um conjunto de boas práticas e diretrizes para uma aplicação AngularJS. Estas boas práticas foram colhetadas de:
+O objetivo deste guia é apresentar um conjunto de boas práticas e diretrizes para uma aplicação AngularJS. Estas boas práticas foram colhidas de:
 
 0. Código Fonte AngularJS
 0. Códigos fonte de artigos que li
 0. Minha própria experiência
 
-**Nota**: Este ainda é um rascunho de guia, seu objetivo principal é ser construído pela comunidade, então preenchendo as lacunas você será muito apreciado por toda ela.  
+**Nota**: Este ainda é um rascunho de guia, seu objetivo principal é ser construído pela comunidade, então preenchendo as lacunas você será muito apreciado por toda ela.
 
 Neste guia você **não** vai encontrar diretrizes para desenvolvimento JavaScript. Tal pode ser encontrado em:
 
@@ -40,91 +40,86 @@ Uma vez que uma gande aplicação AngularJS tem muitos componentes, é melhor es
 
 * Criando uma divisão alto nível por tipos de componentes e uma divisão baixo nível por funcionalidade.
 
-Desta maneira o a estrutura do diretório irá se parecer com:
+Desta maneira a estrutura do diretório irá se parecer com:
 
-    * app
-        * controllers
-            * page1
-                * FirstCtrl.js
-                * SecondCtrl.js
-            * page2
-                * ThirdCtrl.js
-            * //...
-        * directives
-            * page1
-                * directive1.js
-            * page2
-                * directive2.js
-                * directive3.js
-            * commonDirective.js
-        * filters
-            * page1
-                * filter1.js
-            commonFilter1.js
-            commonFilter2.js
-        * services
-            * cache
-                * Cache1.js
-                * Cache2.js
-            * models
-                * Model1.js
-                * Model2.js
-            CommonService.js
-        app.js
-    * test
-    * lib
+    .
+    ├── app
+    │   ├── app.js
+    │   ├── controllers
+    │   │   ├── page1
+    │   │   │   ├── FirstCtrl.js
+    │   │   │   └── SecondCtrl.js
+    │   │   └── page2
+    │   │       └── ThirdCtrl.js
+    │   ├── directives
+    │   │   ├── page1
+    │   │   │   └── directive1.js
+    │   │   └── page2
+    │   │       ├── directive2.js
+    │   │       └── directive3.js
+    │   ├── filters
+    │   │   ├── page1
+    │   │   └── page2
+    │   └── services
+    │       ├── CommonService.js
+    │       ├── cache
+    │       │   ├── Cache1.js
+    │       │   └── Cache2.js
+    │       └── models
+    │           ├── Model1.js
+    │           └── Model2.js
+    ├── lib
+    └── test
 
 * Criando uma divisão alto nível por funcionalidade e baixo nível por tipos de componentes.
 
 Aqui está seu modelo:
 
-    * app
-        * page1
-            * controllers
-                * FirstCtrl.js
-                * SecondCtrl.js
-            * directives
-                * directive1.js
-                * directive2.js
-            * filters
-                * filter1.js
-                * filter2.js
-            * services
-                * service1.js
-                * service2.js
-            * //...
-        * page2
-            * controllers
-                * ThirdCtrl.js
-            * directives
-                * directive3.js
-                * directive4.js
-            * filters
-                * filter3.js
-            * services
-                * service3.js
-            //...
-        * common
-            * controllers
-            * directives
-            * filters
-            * services
-        app.js
-    * test
-    * lib
+    .
+    ├── app
+    │   ├── app.js
+    │   ├── common
+    │   │   ├── controllers
+    │   │   ├── directives
+    │   │   ├── filters
+    │   │   └── services
+    │   ├── page1
+    │   │   ├── controllers
+    │   │   │   ├── FirstCtrl.js
+    │   │   │   └── SecondCtrl.js
+    │   │   ├── directives
+    │   │   │   └── directive1.js
+    │   │   ├── filters
+    │   │   │   ├── filter1.js
+    │   │   │   └── filter2.js
+    │   │   └── services
+    │   │       ├── service1.js
+    │   │       └── service2.js
+    │   └── page2
+    │       ├── controllers
+    │       │   └── ThirdCtrl.js
+    │       ├── directives
+    │       │   ├── directive2.js
+    │       │   └── directive3.js
+    │       ├── filters
+    │       │   └── filter3.js
+    │       └── services
+    │           └── service3.js
+    ├── lib
+    └── test
 
 * Quando criarmos uma diretiva, pode ser útil colocar todos os arquivos associados as diretivas (i.e. templates, arquivos CSS/SASS, JavaScript) em uma pasta única. Se você escolher usar este estilo, seja consistente e use-o em todo seu projeto.
 
-    * app
-        * directives
-            * directive1
-                * directive1.js
-                * directive1.html
-                * directive1.sass
-            * directive2
-                * directive2.js
-                * directive2.html
-                * directive2.sass
+        app
+        └── directives
+            ├── directive1
+            │   ├── directive1.html
+            │   ├── directive1.js
+            │   └── directive1.sass
+            └── directive2
+                ├── directive2.html
+                ├── directive2.js
+                └── directive2.sass
 
 Esta abordagem pode ser combinada com ambas as estruturas de diretórios acima.
 
@@ -138,8 +133,8 @@ Convenções sobre nomeação de componentes podem ser achadas em cada seção d
 
 ##Otimizando o ciclo digest
 
-* Observe (watch) somente as variáveis vitais (por exemplo: quando se usar comunicação em tempo real, não utilize um loop digest para cada mensagem recebida).
-* Faça computações em `$watch` o mais simples que puder. Fazer computações pesadas e lentas em um simples `$watch` irá atrasar toda a aplicação (o loop $digest é feito em 'single thread' por causa da natureza 'single thread' do JavaScript).
+* Observe somente as variáveis vitais (por exemplo: quando se usar comunicação em tempo real, não utilize um loop digest para cada mensagem recebida).
+* Faça cálculos em `$watch` o mais simples que puder. Fazer cálculos pesados e lentos em um simples `$watch` irá atrasar toda a aplicação (o loop $digest é feito em 'single thread' por causa da natureza 'single thread' do JavaScript).
 
 ##Outros
 
@@ -151,12 +146,12 @@ Convenções sobre nomeação de componentes podem ser achadas em cada seção d
 
 Isto fará seus testes mais fáceis e em certos casos irá prevenir comportamentos inesperados (por exemplo, se você perder `$scope.$apply` em `setTimeout`).
 
-* Automatize seu fluxo de trabalho (workflow) utilizando ferramentas como:
+* Automatize seu fluxo de trabalho utilizando ferramentas como:
     * [Yeoman](http://yeoman.io)
     * [Grunt](http://gruntjs.com)
     * [Bower](http://bower.io)
 
-* Use promises (`$q`) ao invés de callbacks. Isso tornará seu código mais elegante e limp, e o salvará do inferno de callbacks.
+* Use promises (`$q`) ao invés de callbacks. Isso tornará seu código mais elegante e limpo, e o salvará do inferno de callbacks.
 * Use `$resource` ao invés de `$http` quando possível. Um alto nível de abstração irá lhe salvar de redundância.
 * Use um pré-minificador AngularJS (como [ngmin](https://github.com/btford/ngmin) ou [ng-annotate](https://github.com/olov/ng-annotate)) para prevenir problemas depois da minificação.
 * Não use globais. Resolva todas as dependências usando a Injeção de Dependências.
